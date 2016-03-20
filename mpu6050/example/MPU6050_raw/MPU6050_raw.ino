@@ -83,12 +83,12 @@ void loop() {
 
     // display tab-separated accel/gyro x/y/z values
    // Serial.print("a/g:\t");
-    Serial.print(ax/1000); Serial.print(",");
-    Serial.print(ay/1000); Serial.print("x");
-    //Serial.print(az); Serial.print("\t");
+    Serial.print(ax/1000); Serial.print("\t");
+    Serial.print(ay/1000); Serial.println("y");
+  //  Serial.print(az); Serial.print("\t");
    // Serial.print(gx); Serial.print("\t");
-    //Serial.print(gy); Serial.print("\t");
-    //Serial.println(gz);
+   //Serial.print(gy); Serial.print("\t");
+   //Serial.println(gz);
 
     // blink LED to indicate activity
     blinkState = !blinkState;
