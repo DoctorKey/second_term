@@ -48,6 +48,9 @@ MPU6050 accelgyro;
 
 int16_t ax, ay, az;
 int16_t gx, gy, gz;
+int stateButton = 2;
+int state=0;
+int vrx,vry;
 
 #define LED_PIN 13
 bool blinkState = false;
@@ -71,27 +74,34 @@ void setup() {
 
     // configure Arduino LED for
     pinMode(LED_PIN, OUTPUT);
+    pinMode(stateButton, INPUT);
+    
 }
 
 void loop() {
-    // read raw accel/gyro measurements from device
+  state=digitalRead(stateButton);
+  
+  if(state==HIGH){//use MPU6050
+    digitalWrite(LED_PIN, HIGH);
+    
+     // read raw accel/gyro measurements from device
     accelgyro.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
-
-    // these methods (and a few others) are also available
-    //accelgyro.getAcceleration(&ax, &ay, &az);
-    //accelgyro.getRotation(&gx, &gy, &gz);
-
-    // display tab-separated accel/gyro x/y/z values
-   // Serial.print("a/g:\t");
-    Serial.print(ax/1000); Serial.print("\t");
-    Serial.print(ay/1000); Serial.println("y");
-  //  Serial.print(az); Serial.print("\t");
-   // Serial.print(gx); Serial.print("\t");
-   //Serial.print(gy); Serial.print("\t");
-   //Serial.println(gz);
-
-    // blink LED to indicate activity
-    blinkState = !blinkState;
-    digitalWrite(LED_PIN, blinkState);
+    
+   // Serial.print(ax/1000); Serial.print("\t");
+   //Serial.print(ay/1000); Serial.println("y");
+    Serial.print(ax/1000); Serial.print(",");
+    Serial.print(ay/1000); Serial.println("x");
+   
+  }else{//use rocker
+    digitalWrite(LED_PIN, LOW);
+    vrx = analogRead(A0);
+    vry = analogRead(A1);
+  // print out the value you read:
+  //  Serial.print("x:\t");Serial.print(vrx);  
+  // Serial.print("y:\t"); Serial.println(vry);
+  Serial.print(vrx); Serial.print(",");  
+  Serial.print(vry);Serial.print("x");  
+  }
+   
     delay(200);
 }

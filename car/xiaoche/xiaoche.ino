@@ -6,7 +6,8 @@ int last_proportional = 0;
 long integral = 0;
 int proportional,derivative,power_difference;
 int maxspeed=255;
-int speed_base,deriction;
+int vrx,vry;
+int thr,dir;
 int readl(){           //read 
   p1=analogRead(A1);
   p2=analogRead(A2);
@@ -58,27 +59,30 @@ pinMode(IN[0],OUTPUT);
 pinMode(IN[1],OUTPUT);
 pinMode(IN[2],OUTPUT);
 pinMode(IN[3],OUTPUT);
-Serial.begin(38400);
+Serial.begin(115200);
 }
 void loop() {
   while (Serial.available() >= 0) {   // 串口收到字符数大于零。
-    speed_base = Serial.parseInt();           // 在串口数据流中查找一个有效整数。
-    deriction=Serial.parseInt(); 
+    vrx = Serial.parseInt();           // 在串口数据流中查找一个有效整数。
+    vry = Serial.parseInt(); 
     if (Serial.read() == 'x') {      // 收到结束符后开始处理数据。
       Serial.println("receive data");
-      if(speed_base>8){
-        Serial.println("stop");
-        motor(0,0);
-      }else{
-        if(deriction<0){ //turn left
-          Serial.println("turn left");
-          motor((-speed_base+8)*8-deriction*2,(-speed_base+8)*8);
-        }else{
-          Serial.println("turn right");          
-          motor((-speed_base+8)*8,(-speed_base+8)*8+deriction*2);
-        }
-      }
+      thr = vrx*13;
+      dir = vry*3;
+      motor(thr+dir,thr-dir);
+//      if(vrx>8){
+//        Serial.println("stop");
+//        motor(0,0);
+//      }else{
+//        if(deriction<0){ //turn left
+//          Serial.println("turn left");
+//          motor((-vrx+8)*8-vry*2,(-vrx+8)*8);
+//        }else{
+//          Serial.println("turn right");          
+//          motor((-vrx+8)*8,(-vrx+8)*8+vry*2);
+//        }
+//      }
       
-    }
-  }
+    }//if
+  }//while
 }
