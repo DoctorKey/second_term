@@ -87,18 +87,28 @@ void loop() {
      // read raw accel/gyro measurements from device
     accelgyro.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
     
-   // Serial.print(ax/1000); Serial.print("\t");
+    //Serial.print(-ax/1000); Serial.print("\t");
    //Serial.print(ay/1000); Serial.println("y");
-    Serial.print(ax/1000); Serial.print(",");
+    Serial.print(-ax/1000); Serial.print(",");
     Serial.print(ay/1000); Serial.println("x");
    
   }else{//use rocker
     digitalWrite(LED_PIN, LOW);
     vrx = analogRead(A0);
     vry = analogRead(A1);
+    vrx=(vrx-512)/32-5;
+    vry=(vry-512)/32-5;
+    if(vrx>0)
+      vrx=vrx*16/11;
+    else
+      vrx=vrx*16/21;
+    if(vry>0)
+      vry=vry*16/11;
+    else
+      vry=vry*16/21;
   // print out the value you read:
-  //  Serial.print("x:\t");Serial.print(vrx);  
-  // Serial.print("y:\t"); Serial.println(vry);
+    //Serial.print("x:\t");Serial.print(vrx);  
+   //Serial.print("y:\t"); Serial.println(vry);
   Serial.print(vrx); Serial.print(",");  
   Serial.print(vry);Serial.print("x");  
   }

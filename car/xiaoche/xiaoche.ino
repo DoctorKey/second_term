@@ -69,7 +69,10 @@ void loop() {
       Serial.println("receive data");
       thr = vrx*13;
       dir = vry*3;
-      motor(thr+dir,thr-dir);
+      motor(thr-dir,thr+dir);
+      Serial.print(thr+dir);
+      Serial.print("\t");
+      Serial.println(thr-dir);
 //      if(vrx>8){
 //        Serial.println("stop");
 //        motor(0,0);
